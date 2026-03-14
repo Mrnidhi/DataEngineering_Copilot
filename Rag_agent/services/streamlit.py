@@ -85,54 +85,65 @@ def get_airflow_client():
 client = get_airflow_client()
 
 # Fetch Data
-with st.spinner("Connecting to Apache Airflow Cluster..."):
-    summary = client.get_dashboard_summary()
-    failures = client.get_active_failures()
+try:
+    with st.spinner("Connecting to Apache Airflow Cluster..."):
+        summary = client.get_dashboard_summary()
+        failures = client.get_active_failures()
 
-# Stats ROW
-st.markdown("### 📊 System Overview")
-stat1, stat2, stat3, stat4 = st.columns(4)
-total_dags = len(summary)
-failed_count = len([d for d in summary if d['status'] == 'failed'])
-success_count = len([d for d in summary if d['status'] == 'success'])
-running_count = len([d for d in summary if d['status'] == 'running'])
+    # Stats ROW
+    st.markdown("### 📊 System Overview")
+    stat1, stat2, stat3, stat4 = st.columns(4)
+    total_dags = len(summary)
+    failed_count = len([d for d in summary if d['status'] == 'failed'])
+    success_count = len([d for d in summary if d['status'] == 'success'])
+    running_count = len([d for d in summary if d['status'] == 'running'])
 
-stat1.metric("Total Pipelines", total_dags)
-stat2.metric("Healthy", success_count, f"{(success_count/max(1, total_dags))*100:.0f}%", delta_color="normal")
-stat3.metric("Running", running_count, None, delta_color="off")
-stat4.metric("Failures Detected", failed_count, f"{failed_count} active", delta_color="inverse")
+    stat1.metric("Total Pipelines", total_dags)
+    stat2.metric("Healthy", success_count, f"{(success_count/max(1, total_dags))*100:.0f}%" if total_dags > 0 else "0%", delta_color="normal")
+    stat3.metric("Running", running_count, None, delta_color="off")
+    stat4.metric("Failures Detected", failed_count, f"{failed_count} active", delta_color="inverse")
 
-st.markdown("<hr style='border-color: #2B2B36; margin: 2rem 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border-color: #2B2B36; margin: 2rem 0;'>", unsafe_allow_html=True)
 
 
-# Main Content Layout
-col_main, col_side = st.columns([1.5, 1])
+    # Main Content Layout
+    col_main, col_side = st.columns([1.5, 1])
 
-# LEFT COLUMN: Pipeline Grid
-with col_main:
-    st.markdown("### 🚦 Active Pipelines")
+    # LEFT COLUMN: Pipeline Grid
+    with col_main:
+        st.markdown("### 🚦 Active Pipelines")
+        
+        if not summary:
+            st.info("No active DAGs found. Please ensure Airflow is running.")
+        else:
+            # Create a grid for DAG cards
+            for i in range(0, len(summary), 2):
+                cols = st.columns(2)
+                for j in range(2):
+                    if i + j < len(summary):
+                        dag = summary[i+j]
+                        
+                        status_class = f"badge-{dag['status']}"
+                        icon = "🟢" if dag['status'] == 'success' else "🔴" if dag['status'] == 'failed' else "🟡"
+                        
+                        with cols[j]:
+                            st.markdown(f"""
+                            <div class="status-card" style="margin-bottom: 20px;">
+                                <div class="dag-name">{dag['dag_id']}</div>
+                                <div class="dag-time">Last exec: {dag['execution_date'][:19]}</div>
+                                <div><span class="{status_class}">{icon} {dag['status'].upper()}</span></div>
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
+except Exception as e:
+    st.error(f"**Connection Error:** Could not connect to Apache Airflow. Please ensure the cluster is running (`docker-compose up -d`) and the credentials in `.env` are correct.")
+    summary = []
+    failures = []
     
-    if not summary:
-        st.info("No active DAGs found. Please ensure Airflow is running.")
-    else:
-        # Create a grid for DAG cards
-        for i in range(0, len(summary), 2):
-            cols = st.columns(2)
-            for j in range(2):
-                if i + j < len(summary):
-                    dag = summary[i+j]
-                    
-                    status_class = f"badge-{dag['status']}"
-                    icon = "🟢" if dag['status'] == 'success' else "🔴" if dag['status'] == 'failed' else "🟡"
-                    
-                    with cols[j]:
-                        st.markdown(f"""
-                        <div class="status-card" style="margin-bottom: 20px;">
-                            <div class="dag-name">{dag['dag_id']}</div>
-                            <div class="dag-time">Last exec: {dag['execution_date'][:19]}</div>
-                            <div><span class="{status_class}">{icon} {dag['status'].upper()}</span></div>
-                        </div>
-                        """, unsafe_allow_html=True)
+    # Empty column placeholder so the rest of the UI doesn't crash
+    col_main, col_side = st.columns([1.5, 1])
+    with col_main:
+        st.info("Waiting for Airflow Connection...")
 
 # RIGHT COLUMN: AI Alerts & Diagnostics
 with col_side:

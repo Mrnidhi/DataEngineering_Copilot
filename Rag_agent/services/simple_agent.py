@@ -6,23 +6,27 @@ from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from llama_index.core import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from dotenv import load_dotenv
+
 from index import Index
 from chat_memory import ChatMemory
 
+load_dotenv()
 
 class SimpleWorkingAgent:
     def __init__(self, directory: str, storage_directory: str, user_id: str):
         self.directory = directory
         self.storage_directory = storage_directory
         self.user_id = user_id
-        # Initialize chat memory - we'll handle serialization carefully
+        
+        # Initialize chat memory
         try:
             self.chat_memory = ChatMemory(user_id=user_id)
-        except:
-            print("Note: Chat memory initialization failed, continuing without it")
+        except Exception as e:
+            print(f"Note: Chat memory initialization failed ({e}), continuing without it")
             self.chat_memory = None
-        
-        # Simple URLs that definitely have the content we need
+            
+        # Target Documentation URLs
         self.urls = [
             "https://spark.apache.org/docs/latest/sql-getting-started.html",
             "https://spark.apache.org/docs/latest/sql-programming-guide.html",
@@ -30,44 +34,58 @@ class SimpleWorkingAgent:
             "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html"
         ]
         
-        print("Loading index...")
+        print(f"Loading index from {storage_directory}...")
         self.index = Index(directory, storage_directory).load_index(urls=self.urls)
-        
         if not self.index:
             raise ValueError("Failed to create index")
+            
+        self._setup_models()
+        self._setup_agent()
         
-        # Setup models
+    def _setup_models(self) -> None:
+        """Configures the embedding and LLM models using environment variables."""
         print("Setting up models...")
+        
+        # Embeddings
         embedding = HuggingFaceEmbedding(
             model_name="BAAI/bge-small-en-v1.5",
             model_kwargs={"attn_implementation": "eager"}
         )
         
-        # CRITICAL: Set temperature to 0 for deterministic responses
-        llm = Ollama(model="llama3.2:3b-instruct-q4_K_S", request_timeout=120.0, temperature=0.0)
+        # LLM from ENV
+        ollama_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+        ollama_model = os.getenv("OLLAMA_MODEL", "llama3.2:3b-instruct-q4_K_S")
+        
+        llm = Ollama(
+            model=ollama_model, 
+            base_url=ollama_url,
+            request_timeout=120.0, 
+            temperature=0.0  # Set to 0 for deterministic outputs
+        )
         
         Settings.embed_model = embedding
         Settings.llm = llm
+
+    def _setup_agent(self) -> None:
+        """Configures the Chat Engine and ReAct Agent framework."""
+        mem_slots = self.chat_memory.get_all() if self.chat_memory else []
         
-        # Create working query engine with stricter settings
         self.chat_engine = self.index.as_chat_engine(
-            similarity_top_k=3,  # fewer = faster
+            similarity_top_k=3,
             response_mode="compact",
-            chat_memory=self.chat_memory.get_all()  # load previous memory
+            chat_memory=mem_slots
         )
         
-        # Create tool with very explicit description
         tool = QueryEngineTool(
-            query_engine=self.chat_engine,  # use chat engine now
+            query_engine=self.chat_engine,
             metadata=ToolMetadata(
                 name="docs_search",
                 description="Search ONLY in indexed Apache Spark, dbt, and Apache Airflow documentation. NEVER answer about Kafka, Snowflake, or other technologies."
             )
         )
         
-        # MUCH STRICTER system prompt
         system_prompt = """
-            You are a conversational documentation assistant.
+            You are a conversational documentation assistant for a Data Engineering Copilot.
 
             You have access to:
             - Documentation search tool (Spark, dbt, Airflow)
@@ -80,20 +98,17 @@ class SimpleWorkingAgent:
             4. If the documentation does not contain the answer, say so clearly
             5. Do NOT use general knowledge outside the indexed documents
             """
-        
-        # Create ReActAgent with strict settings
+            
         self.agent = ReActAgent(
             tools=[tool],
-            llm=llm,
+            llm=Settings.llm,
             verbose=True,
-            max_iterations=2,  # Reduce iterations to prevent fallback to general knowledge
+            max_iterations=2,
             context=system_prompt,
-            # Add these to make it stricter
             handle_parsing_errors=False,
-            early_stopping_method="force"  # Stop early if no good answer from tools
+            early_stopping_method="force"
         )
-        
-        print("ReActAgent ready with STRICT document-only mode!")
+        print("ReActAgent initialized successfully.")
     
     def save_to_memory(self, question: str, answer: str):
         """Save Q&A to memory, handling serialization issues"""

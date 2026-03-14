@@ -1,12 +1,18 @@
+import os
 import requests
 from requests.auth import HTTPBasicAuth
 from datetime import datetime, timedelta
 import urllib.parse
 from typing import List, Dict, Any, Optional
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class AirflowClient:
-    def __init__(self, base_url="http://localhost:8080/api/v1", username="airflow", password="airflow"):
-        self.base_url = base_url
+    def __init__(self):
+        self.base_url = os.getenv("AIRFLOW_API_URL", "http://localhost:8080/api/v1")
+        username = os.getenv("AIRFLOW_USERNAME", "airflow")
+        password = os.getenv("AIRFLOW_PASSWORD", "airflow")
         self.auth = HTTPBasicAuth(username, password)
         self.headers = {"Content-Type": "application/json"}
 
@@ -14,9 +20,15 @@ class AirflowClient:
         """Make a GET request to the Airflow API."""
         url = f"{self.base_url}/{endpoint}"
         try:
-            response = requests.get(url, auth=self.auth, headers=self.headers)
+            response = requests.get(url, auth=self.auth, headers=self.headers, timeout=5)
             response.raise_for_status()
             return response.json()
+        except requests.exceptions.ConnectionError:
+            print(f"Airflow connection refused at {url}")
+            return {}
+        except requests.exceptions.Timeout:
+            print(f"Airflow connection timeout at {url}")
+            return {}
         except requests.exceptions.RequestException as e:
             print(f"Error accessing Airflow API ({url}): {e}")
             return {}

@@ -1,9 +1,41 @@
 import os
 from pathlib import Path
 from simple_agent import SimpleWorkingAgent
+from typing import Dict, Any
 
-# Cache for agents by user_id
-_agent_cache = {}
+# LRU Cache settings for agents to prevent memory leaks
+MAX_CACHED_AGENTS = 50
+_agent_cache: Dict[str, Any] = {}
+_agent_access_order: list[str] = []
+
+def _get_agent(user_id: str) -> SimpleWorkingAgent:
+    """Gets an agent from cache, managing LRU eviction."""
+    global _agent_cache, _agent_access_order
+    
+    if user_id in _agent_cache:
+        # Move to end of access order (most recently used)
+        _agent_access_order.remove(user_id)
+        _agent_access_order.append(user_id)
+        return _agent_cache[user_id]
+        
+    # Create new agent
+    print(f"Creating new agent for user: {user_id}")
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    data_dir = str(BASE_DIR / "dataStorage")
+    storage_dir = str(BASE_DIR / "indexStorage")
+    
+    agent = SimpleWorkingAgent(data_dir, storage_dir, user_id)
+    
+    # Enforce eviction policy
+    if len(_agent_cache) >= MAX_CACHED_AGENTS:
+        oldest_user = _agent_access_order.pop(0)
+        del _agent_cache[oldest_user]
+        
+    _agent_cache[user_id] = agent
+    _agent_access_order.append(user_id)
+    
+    return agent
+
 
 def get_query_response(query: str, user_id: str, clear_history: bool = False) -> str:
     """
@@ -18,20 +50,10 @@ def get_query_response(query: str, user_id: str, clear_history: bool = False) ->
         Agent's response as string
     """
     try:
-        # Set up paths
-        BASE_DIR = Path(__file__).resolve().parent.parent
-        data_dir = str(BASE_DIR / "dataStorage")
-        storage_dir = str(BASE_DIR / "indexStorage")
-        
-        # Get or create agent for this user
-        if user_id not in _agent_cache:
-            print(f"Creating new agent for user: {user_id}")
-            _agent_cache[user_id] = SimpleWorkingAgent(data_dir, storage_dir, user_id)
-        
-        agent = _agent_cache[user_id]
+        agent = _get_agent(user_id)
         
         # Clear history if requested
-        if clear_history:
+        if clear_history and agent.chat_memory:
             agent.chat_memory.clear_history()
         
         # Get response
