@@ -1,101 +1,97 @@
-import time
-import random
+"""
+Mock DAGs for testing DataSight AI.
+
+These DAGs simulate:
+1. A healthy ELT pipeline that always succeeds
+2. A broken dbt pipeline that fails with a column mismatch error
+"""
+
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
+
+# ── Shared defaults ──────────────────────────────────────────────────
 default_args = {
-    'owner': 'data_engineering',
-    'depends_on_past': False,
-    'email_on_failure': False,
-    'email_on_retry': False,
-    'retries': 0,
-    'retry_delay': timedelta(minutes=5),
+    "owner": "data_engineering",
+    "retries": 0,
+    "retry_delay": timedelta(minutes=1),
 }
 
-# 1. A SUCCESSFUL DAG (simulate ELT)
-def extract_data():
-    print("Extracting data from API...")
+
+# ── DAG 1: Successful ELT Pipeline ──────────────────────────────────
+def extract_sales_data(**kwargs):
+    """Simulates extracting data from a source database."""
+    import time
     time.sleep(2)
-    print("Extraction successful. 15,000 rows extracted.")
+    print("Extracted 10,000 rows from sales_db.transactions")
+    return {"rows_extracted": 10000}
 
-def load_data():
-    print("Loading data into Snowflake staging area...")
+
+def run_dbt_transform(**kwargs):
+    """Simulates a successful dbt transformation."""
+    import time
     time.sleep(1)
-    print("Load successful.")
+    print("dbt run completed: 3 models passed, 0 failed")
 
-def transform_data():
-    print("Running dbt model: my_first_dbt_model")
-    time.sleep(3)
-    print("dbt run completed successfully.")
+
+def load_to_warehouse(**kwargs):
+    """Simulates loading data into the data warehouse."""
+    import time
+    time.sleep(1)
+    print("Loaded 10,000 rows into warehouse.fact_sales")
+
 
 with DAG(
-    'successful_elt_pipeline',
+    dag_id="successful_elt_pipeline",
+    description="A mock pipeline that always succeeds",
     default_args=default_args,
-    description='A mock pipeline that always succeeds',
+    start_date=datetime(2024, 1, 1),
     schedule_interval=timedelta(minutes=10),
-    start_date=datetime(2023, 1, 1),
     catchup=False,
-    tags=['mock', 'elt'],
-) as dag_success:
-
-    t1_extract = PythonOperator(
-        task_id='extract_sales_data',
-        python_callable=extract_data,
-    )
-
-    t2_load = PythonOperator(
-        task_id='load_to_warehouse',
-        python_callable=load_data,
-    )
-
-    t3_transform = PythonOperator(
-        task_id='run_dbt_transform',
-        python_callable=transform_data,
-    )
-
-    t1_extract >> t2_load >> t3_transform
+    tags=["elt", "mock"],
+) as dag1:
+    t1 = PythonOperator(task_id="extract_sales_data", python_callable=extract_sales_data)
+    t2 = PythonOperator(task_id="run_dbt_transform", python_callable=run_dbt_transform)
+    t3 = PythonOperator(task_id="load_to_warehouse", python_callable=load_to_warehouse)
+    t1 >> t2 >> t3
 
 
-# 2. A FAILING DAG (simulate a dbt error for the agent to catch)
-def broken_extract():
-    print("Connecting to API...")
-    time.sleep(1)
-    print("Connected. Fetching records...")
+# ── DAG 2: Failing dbt Pipeline ─────────────────────────────────────
+def extract_users(**kwargs):
+    """Simulates extracting user data."""
+    print("Extracted 5,000 rows from app_db.users")
+    return {"rows": 5000}
 
-def broken_transform():
-    print("Starting dbt run...")
+
+def broken_transform(**kwargs):
+    """Simulates a dbt model that fails due to a column mismatch."""
     print("Running dbt model: stg_users")
-    time.sleep(2)
+    print("Compiling SQL:")
     print("""
-Runtime Error in model stg_users (models/staging/stg_users.sql)
-  Database Error
-  column "user_email" does not exist
-  LINE 4:     user_email as email,
-              ^
-  HINT:  Perhaps you meant to reference the column "raw_users.email_address".
+    SELECT
+        user_id,
+        first_name,
+        last_name,
+        user_email as email,    -- ERROR: column 'user_email' does not exist
+        created_at
+    FROM raw_users
     """)
+    print("ERROR: column \"user_email\" does not exist")
+    print('HINT:  Perhaps you meant to reference the column "raw_users.email_address".')
+    print("LINE 4:     user_email as email,")
     raise Exception("dbt run failed due to missing column.")
 
 
 with DAG(
-    'failing_dbt_pipeline',
+    dag_id="failing_dbt_pipeline",
+    description="A mock pipeline that simulates a dbt compilation error",
     default_args=default_args,
-    description='A mock pipeline that simulates a dbt compilation error',
-    schedule_interval=timedelta(minutes=5), # runs frequently for testing
-    start_date=datetime(2023, 1, 1),
+    start_date=datetime(2024, 1, 1),
+    schedule_interval=timedelta(minutes=5),
     catchup=False,
-    tags=['mock', 'dbt_failure'],
-) as dag_fail:
-
-    fail_t1 = PythonOperator(
-        task_id='extract_users',
-        python_callable=broken_extract,
-    )
-
-    fail_t2 = PythonOperator(
-        task_id='run_dbt_models',
-        python_callable=broken_transform,
-    )
-
-    fail_t1 >> fail_t2
+    tags=["dbt_failure", "mock"],
+) as dag2:
+    u1 = PythonOperator(task_id="extract_users", python_callable=extract_users)
+    u2 = PythonOperator(task_id="run_dbt_models", python_callable=broken_transform)
+    u1 >> u2
