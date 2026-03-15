@@ -1,0 +1,88 @@
+[2026-03-15T05:21:51.149+0000] {processor.py:161} INFO - Started process (PID=63) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:21:51.154+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:21:51.158+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:21:51.157+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:21:51.190+0000] {processor.py:840} INFO - DAG(s) 'successful_elt_pipeline', 'failing_dbt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:21:51.593+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:21:51.593+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:21:51.620+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:21:51.619+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:15:00+00:00, run_after=2026-03-15 05:20:00+00:00
+[2026-03-15T05:21:51.626+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:21:51.626+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:10:00+00:00, run_after=2026-03-15 05:20:00+00:00
+[2026-03-15T05:21:51.692+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.548 seconds
+[2026-03-15T05:22:22.127+0000] {processor.py:161} INFO - Started process (PID=122) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:22:22.133+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:22:22.139+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:22.138+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:22:22.168+0000] {processor.py:840} INFO - DAG(s) 'successful_elt_pipeline', 'failing_dbt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:22:22.259+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:22.259+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:22:22.306+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:22.306+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:25:00+00:00
+[2026-03-15T05:22:22.319+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:22.318+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:22:22.358+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.248 seconds
+[2026-03-15T05:22:53.304+0000] {processor.py:161} INFO - Started process (PID=178) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:22:53.311+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:22:53.323+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:53.320+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:22:53.369+0000] {processor.py:840} INFO - DAG(s) 'successful_elt_pipeline', 'failing_dbt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:22:53.485+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:53.485+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:22:53.619+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:53.619+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:25:00+00:00
+[2026-03-15T05:22:53.632+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:22:53.631+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:22:53.679+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.399 seconds
+[2026-03-15T05:23:25.368+0000] {processor.py:161} INFO - Started process (PID=242) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:23:25.445+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:23:25.631+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:25.620+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:23:25.779+0000] {processor.py:840} INFO - DAG(s) 'successful_elt_pipeline', 'failing_dbt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:23:26.028+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:26.026+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:23:26.343+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:26.343+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:25:00+00:00
+[2026-03-15T05:23:26.356+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:26.355+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:23:26.454+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 1.239 seconds
+[2026-03-15T05:23:57.036+0000] {processor.py:161} INFO - Started process (PID=298) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:23:57.040+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:23:57.047+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:57.046+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:23:57.078+0000] {processor.py:840} INFO - DAG(s) 'successful_elt_pipeline', 'failing_dbt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:23:57.178+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:57.178+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:23:57.249+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:57.247+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:25:00+00:00
+[2026-03-15T05:23:57.260+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:23:57.259+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:23:57.298+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.275 seconds
+[2026-03-15T05:24:27.901+0000] {processor.py:161} INFO - Started process (PID=354) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:24:27.909+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:24:27.915+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:27.914+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:24:27.935+0000] {processor.py:840} INFO - DAG(s) 'failing_dbt_pipeline', 'successful_elt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:24:27.979+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:27.979+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:24:28.036+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:28.035+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:25:00+00:00
+[2026-03-15T05:24:28.047+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:28.047+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:24:28.072+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.187 seconds
+[2026-03-15T05:24:58.186+0000] {processor.py:161} INFO - Started process (PID=410) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:24:58.188+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:24:58.192+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:58.191+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:24:58.223+0000] {processor.py:840} INFO - DAG(s) 'failing_dbt_pipeline', 'successful_elt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:24:58.267+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:58.267+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:24:58.304+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:58.304+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:25:00+00:00
+[2026-03-15T05:24:58.309+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:24:58.309+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:24:58.331+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.153 seconds
+[2026-03-15T05:25:28.572+0000] {processor.py:161} INFO - Started process (PID=466) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:25:28.573+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:25:28.575+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:25:28.575+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:25:28.587+0000] {processor.py:840} INFO - DAG(s) 'successful_elt_pipeline', 'failing_dbt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:25:28.621+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:25:28.621+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:25:28.640+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:25:28.640+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:25:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:25:28.653+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:25:28.653+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:25:28.670+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.101 seconds
+[2026-03-15T05:26:01.138+0000] {processor.py:161} INFO - Started process (PID=520) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:26:01.140+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:26:01.144+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:01.143+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:26:01.162+0000] {processor.py:840} INFO - DAG(s) 'failing_dbt_pipeline', 'successful_elt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:26:01.205+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:01.204+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:26:01.265+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:01.264+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:25:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:26:01.283+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:01.283+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:26:01.363+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.231 seconds
+[2026-03-15T05:26:32.661+0000] {processor.py:161} INFO - Started process (PID=564) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:26:32.666+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:26:32.672+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:32.671+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:26:32.726+0000] {processor.py:840} INFO - DAG(s) 'successful_elt_pipeline', 'failing_dbt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:26:32.929+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:32.929+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:26:33.069+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:33.069+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:25:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:26:33.077+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:26:33.077+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:26:33.250+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.601 seconds
+[2026-03-15T05:27:03.937+0000] {processor.py:161} INFO - Started process (PID=625) to work on /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:27:03.938+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mock_pipelines.py for tasks to queue
+[2026-03-15T05:27:03.944+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:27:03.942+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:27:03.965+0000] {processor.py:840} INFO - DAG(s) 'failing_dbt_pipeline', 'successful_elt_pipeline' retrieved from /opt/airflow/dags/mock_pipelines.py
+[2026-03-15T05:27:04.014+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:27:04.014+0000] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-15T05:27:04.065+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:27:04.064+0000] {dag.py:3823} INFO - Setting next_dagrun for failing_dbt_pipeline to 2026-03-15 05:25:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:27:04.074+0000] {logging_mixin.py:188} INFO - [2026-03-15T05:27:04.073+0000] {dag.py:3823} INFO - Setting next_dagrun for successful_elt_pipeline to 2026-03-15 05:20:00+00:00, run_after=2026-03-15 05:30:00+00:00
+[2026-03-15T05:27:04.110+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mock_pipelines.py took 0.180 seconds

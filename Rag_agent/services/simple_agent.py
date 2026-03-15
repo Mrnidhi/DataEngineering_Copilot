@@ -99,14 +99,12 @@ class SimpleWorkingAgent:
             5. Do NOT use general knowledge outside the indexed documents
             """
             
-        self.agent = ReActAgent(
+        self.agent = ReActAgent.from_tools(
             tools=[tool],
             llm=Settings.llm,
             verbose=True,
             max_iterations=2,
-            context=system_prompt,
-            handle_parsing_errors=False,
-            early_stopping_method="force"
+            context=system_prompt
         )
         print("ReActAgent initialized successfully.")
     

@@ -1,0 +1,15 @@
+[2026-03-15T05:22:54.034+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: failing_dbt_pipeline.extract_users manual__2026-03-15T05:22:12.124323+00:00 [queued]>
+[2026-03-15T05:22:54.050+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: failing_dbt_pipeline.extract_users manual__2026-03-15T05:22:12.124323+00:00 [queued]>
+[2026-03-15T05:22:54.051+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2026-03-15T05:22:54.070+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): extract_users> on 2026-03-15 05:22:12.124323+00:00
+[2026-03-15T05:22:54.087+0000] {standard_task_runner.py:60} INFO - Started process 79 to run task
+[2026-03-15T05:22:54.102+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'failing_dbt_pipeline', 'extract_users', 'manual__2026-03-15T05:22:12.124323+00:00', '--job-id', '10', '--raw', '--subdir', 'DAGS_FOLDER/mock_pipelines.py', '--cfg-path', '/tmp/tmpoohgycb1']
+[2026-03-15T05:22:54.126+0000] {standard_task_runner.py:88} INFO - Job 10: Subtask extract_users
+[2026-03-15T05:22:54.301+0000] {task_command.py:423} INFO - Running <TaskInstance: failing_dbt_pipeline.extract_users manual__2026-03-15T05:22:12.124323+00:00 [running]> on host 2eba9defef78
+[2026-03-15T05:22:56.646+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='failing_dbt_pipeline' AIRFLOW_CTX_TASK_ID='extract_users' AIRFLOW_CTX_EXECUTION_DATE='2026-03-15T05:22:12.124323+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-15T05:22:12.124323+00:00'
+[2026-03-15T05:22:56.678+0000] {logging_mixin.py:188} INFO - Connecting to API...
+[2026-03-15T05:22:57.682+0000] {logging_mixin.py:188} INFO - Connected. Fetching records...
+[2026-03-15T05:22:57.683+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-03-15T05:22:57.701+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=failing_dbt_pipeline, task_id=extract_users, execution_date=20260315T052212, start_date=20260315T052254, end_date=20260315T052257
+[2026-03-15T05:22:57.798+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-03-15T05:22:57.934+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
