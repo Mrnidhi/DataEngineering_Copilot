@@ -254,7 +254,7 @@ Generate the minimal fix for this issue."""
         if sev_match:
             severity = sev_match.group(1).lower()
 
-        conf_match = re.search(r"CONFIDENCE:\s*([\d.]+)", response)
+        conf_match = re.search(r"CONFIDENCE:\s*(-?[\d.]+)", response)
         if conf_match:
             try:
                 confidence = min(1.0, max(0.0, float(conf_match.group(1))))

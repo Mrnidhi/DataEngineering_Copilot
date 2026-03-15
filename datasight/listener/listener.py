@@ -74,7 +74,7 @@ class DataSightListener:
             code_context = code_analyzer.get_context(dag_id=dag_id, task_id=task_id)
 
             # Step 3: Build the incident payload
-            incident = {
+            incident_data = {
                 "dag_id": dag_id,
                 "task_id": task_id,
                 "run_id": run_id,
@@ -92,9 +92,12 @@ class DataSightListener:
                 dag_id, task_id,
             )
 
-            # Phase 2 will wire this to the LLM engine + approval gateway
-            # For now, we log and store the incident
-            self._store_incident(incident)
+            # Route through the Approval Gateway for full diagnostic pipeline
+            from datasight.approval.gateway import ApprovalGateway
+
+            gateway = ApprovalGateway()
+            incident = gateway.create_incident(incident_data)
+            gateway.process_incident(incident)
 
         except Exception as exc:
             logger.error("DataSight listener error: %s", exc, exc_info=True)
@@ -114,20 +117,3 @@ class DataSightListener:
     ) -> None:
         """Optional: track task starts for latency monitoring."""
         pass
-
-    @staticmethod
-    def _store_incident(incident: dict) -> None:
-        """Persist the incident for later processing. Phase 3 will use a proper DB."""
-        import json
-        import os
-
-        store_dir = "/tmp/datasight/incidents"
-        os.makedirs(store_dir, exist_ok=True)
-
-        filename = f"{incident['dag_id']}__{incident['task_id']}__{incident['run_id']}.json"
-        filepath = os.path.join(store_dir, filename)
-
-        with open(filepath, "w") as f:
-            json.dump(incident, f, indent=2, default=str)
-
-        logger.info("Incident stored at %s", filepath)
