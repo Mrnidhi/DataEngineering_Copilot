@@ -6,7 +6,7 @@ import time
 sys.path.append(os.path.join(os.path.dirname(__file__), 'Rag_agent', 'services'))
 
 from chat_service import get_query_response, analyze_failure
-from app.api.endpoints.airflow import AirflowClient
+from airflow_client import AirflowClient
 
 st.set_page_config(
     page_title="DataSight | AI Observability", 
